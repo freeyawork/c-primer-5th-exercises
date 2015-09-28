@@ -1,0 +1,55 @@
+//freeya Sep.29.2015
+//ignore uppercase , lowercase and punct,count how many times every word appears.
+#include<iostream>
+#include<fstream>
+#include<sstream>
+#include<string>
+#include<map>
+#include <algorithm>
+using namespace std;
+//11.4
+void counter_words(map<string, size_t> &m)
+{
+	
+	for (string word; cin >> word;)
+	{
+		cout << "the original word: " << word << endl;
+		for (auto &ch : word)
+		{
+			ch = tolower(ch);			
+		}
+		word.erase(remove_if(word.begin(), word.end(), ispunct));
+		cout << "the fixed keyword: " << word << endl;;
+		++m[word];
+	}
+	for (const auto c : m)
+		cout << c.first << " " << c.second << endl;
+
+}
+//11.3
+//read some word from a file
+int main()
+{
+	//11.4
+	map<string, size_t> m,mp;
+	counter_words(m);
+	//11.3
+	ifstream out("test.txt",ifstream::in);
+	string line, word;
+	
+	while (getline(out, line))
+	{
+		istringstream ss(line);
+		while (ss >> word)
+		{
+			for (auto &ch : word)
+				ch = tolower(ch);
+			word.erase(remove_if(word.begin(), word.end(), ispunct));
+			++mp[word];
+		}		
+	}
+	for (const auto &c : mp)
+		cout << c.first << " " <<c.second<< endl;
+	system("pause");
+	return 0;
+}
