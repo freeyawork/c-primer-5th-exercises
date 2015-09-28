@@ -1,0 +1,52 @@
+//freeya Sep.29.2015
+//11.7 define a map,the key is the last name of a family,
+//and the values are the names of the children, we can add new family info or add new child info.
+#include<iostream>
+#include<string>
+#include<map>
+#include<vector>
+using namespace std;
+//11.7 
+//add new family
+void addfamily(map<string, vector<string>>& familys,string &lastname, vector<string> &childrenname)
+{
+	
+	familys[lastname] = childrenname;
+}
+//add new child to a pointed family
+void addnewchild(map<string, vector<string>> &familys, string &lastname, string newname)
+{
+	familys[lastname].push_back(newname);
+}
+
+//print map
+void print(map<string, vector<string>> &familys)
+{
+	for (auto map_it = familys.begin(); map_it != familys.end(); ++map_it)
+	{
+		cout<<map_it->first<< " ： ";
+		for (auto it = (map_it->second).begin(); it != (map_it->second).end(); ++it)
+			cout << *it << " ";
+		cout << endl;
+
+	}
+}
+int main()
+{
+	map<string, vector<string>> familys;	
+	cout << "input lastname of a family :" << endl;
+	string lastname; cin >> lastname;		
+	cout << "input the names of children:" << endl;
+	string childname;
+	vector<string> childrenname;
+	while (cin >> childname&&childname!="EOF")
+				childrenname.push_back(childname);
+	addfamily(familys, lastname, childrenname);
+	print(familys);
+	addnewchild(familys, lastname, "lily");
+	print(familys);
+	cout << "input '1' for continue or '0' for quit:" << endl;
+	
+	system("pause");
+	return 0;
+}
