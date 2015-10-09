@@ -1,0 +1,62 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+using namespace std;
+//print
+void printmultimap(multimap<string,string> &mmap)
+{
+	for (auto mmap_it = mmap.begin(); mmap_it != mmap.end(); ++mmap_it)
+		cout << mmap_it->first << ":" << mmap_it->second << endl;
+	cout << endl;
+}
+int main()
+{
+	//initializing 
+	multimap<string, string> authors({ {"Henry Fielding", "Tom Jones" },
+	{ "Ernest Hemingway", "The Sun Also Rises" },
+	{ "Jane Austen", "Pride and Prejudice" },
+	{ "Ernest Hemingway", "The Old Man and the Sea" },
+	{ "Stendhal", "Le Rouge et le Noir" },
+	{ "Ernest Hemingway", "A Farewell to Arms" } });
+	//add one element
+	authors.insert({ " Henry Fielding", "Tom Jones" });
+	//print authors
+	printmultimap(authors);
+	//find an element and erase it
+	authors.erase(authors.find("Jane Austen"));
+	
+	//print authors after erased one element
+	cout <<"after erased one element: " << endl;
+	printmultimap(authors);
+
+	//search Ernest Hemingway's works
+	string search_item("Ernest Hemingway");
+	//use count() and find()
+	cout <<"use count() and find()" << endl;
+	cout <<"Ernest Hemingway : ";
+	auto it = authors.find(search_item);
+	auto entries = authors.count(search_item);
+	while (entries)
+	{
+		cout << it->second<<" , ";
+		++it;
+		--entries;
+	}
+	//use lowerbound() and upperbound()
+	cout << "use lowerbound() and upperbound()" << endl;
+	cout << "Ernest Hemingway : ";
+	auto beg = authors.lower_bound(search_item);
+	auto end = authors.upper_bound(search_item);
+	for (; beg != end; ++beg)
+	{
+		cout << beg->second<<" , ";
+	}
+	//use equal_range()
+	cout << "use equal_range()" << endl;
+	cout << "Ernest Hemingway : ";
+	for (auto pos = authors.equal_range(search_item); pos.first != pos.second; ++pos.first)
+		cout << pos.first->second<<" , ";
+	system("Pause");
+	return 0;
+}
