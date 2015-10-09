@@ -1,0 +1,57 @@
+//freeyawork Oct.9.2015
+//11.33 word-transforming program
+#include<iostream>
+#include<string>
+#include<map>
+#include<fstream>
+#include<sstream>
+using namespace std;
+//build transform rule
+map<string, string> buildMap(ifstream &map_file)
+{
+	map<string, string> trans_map;//save transform rule
+	string key;
+	string value;
+	//
+	while (map_file >> key&&getline(map_file, value))//read the first word and save it in key, the rest are save in value
+	{
+		if (value.size() > 1)
+			trans_map[key] = value.substr(1);//skip head space 
+		else
+			throw runtime_error("no rule for "+key);
+	}
+	return trans_map;
+}
+//ajv->phrases
+string transform(string &s, map<string, string>&m)
+{
+	auto map_it = m.find(s);//judge whether key existed in transform rule
+	if (map_it != m.cend())
+		return map_it->second;
+	else
+		return s;
+}
+//combine the above two function and show the transform result
+void word_transform(ifstream &map_file, ifstream &doctobetransformed)
+{
+	map<string, string> map_rule = buildMap(map_file);
+	string oneline;
+	while (getline(doctobetransformed, oneline))
+	{
+		istringstream line(oneline);
+		string word;
+		while (line >> word)
+			cout << transform(word, map_rule) << " ";
+		cout << endl;
+	}
+}
+
+int main()
+{
+	ifstream transform_rule_script, doc_tobe_transformed;
+	transform_rule_script.open("map_file.txt",ifstream::in);
+	doc_tobe_transformed.open("doctobetransformed.txt", ifstream::in);
+	word_transform(transform_rule_script, doc_tobe_transformed);
+	system("Pause");
+	return 0;
+}
