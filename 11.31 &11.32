@@ -1,3 +1,7 @@
+//freeyawork Oct.9.2015
+//Exercise 11.31 and 11.32, aim to the usages of mltimap.
+
+
 #include<iostream>
 #include<vector>
 #include<string>
